@@ -1,30 +1,23 @@
 var express = require('express');
 var session = require('express-session');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var fs = require('fs');
-var everyauth = require('everyauth');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
-var credentials = JSON.parse(fs.readFileSync('./github.credentials.encrypted', 'UTF-8'));
+var user = require('./model/user');
 
+var everyauth = require('everyauth');
+var fs = require('fs');
+var credentials = JSON.parse(fs.readFileSync('./github.credentials.encrypted', 'UTF-8'));
 everyauth.github
   .appId(credentials['appId'])
   .appSecret(credentials['appSecret'])
   .scope('user')
   .findOrCreateUser(function(session, accessToken, accessTokenSecret, githubUserData) {
     var promise = this.Promise();
-    var authData = {
-      accessToken: accessToken,
-      accessTokenSecret: accessTokenSecret,
-      username: githubUserData.login,
-      githubId: githubUserData.id
-    };
-    return promise.fulfill(authData);
+    return user.authenticateUser(accessToken, accessTokenSecret, githubUserData, promise);
   })
   .redirectPath('/');
 
@@ -34,8 +27,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,7 +44,6 @@ app.use(everyauth.middleware(app));
 
 //setup routes
 app.use('/', routes);
-app.use('/users', users);
 
 
 // catch 404 and forward to error handler
