@@ -2,6 +2,9 @@ doctype html
 html
   head
     title= title
+    link(rel="icon", type="image/png", sizes="32x32", href="/images/favicon-32x32.png")
+    link(rel="icon", type="image/png", sizes="96x96", href="/images/favicon-96x96.png")
+    link(rel="icon", type="image/png", sizes="16x16", href="/images/favicon-16x16.png")
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
   body
@@ -14,7 +17,8 @@ html
             span(class='icon-bar')
             span(class='icon-bar')
           a(class='navbar-brand', href='#')
-            span(class='brand-title') #{title}
+            span(class='brand-title', style='float: left;') #{title}
+            img(src='/images/favicon-32x32.png')
         div(id="navbar", class="navbar-collapse collapse")
           ul(class="nav navbar-nav")
             li(class="active")
