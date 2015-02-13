@@ -1,0 +1,5 @@
+---
+applications:
+- name: hw-nodejs-01
+  memory: 256M
+  instances: 2
