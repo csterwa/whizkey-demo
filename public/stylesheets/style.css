@@ -1,18 +1,30 @@
+@font-face {
+  font-family: Elegante-Regular;
+  src: url(/fonts/Elegante-Regular.ttf);
+}
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
 }
 
+.brand-title {
+  font-size: 2.0em;
+}
+
 .green {
+  font-family: "Elegante-Regular";
+  font-size: 1.4em;
   background: #00853f;
   color: #fff;
 }
 
 .green a {
+  font-family: "Elegante-Regular";
   color: #fff;
   text-decoration: none;
 }

@@ -1,12 +1,32 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var everyauth = require('everyauth');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var credentials = JSON.parse(fs.readFileSync('./github.credentials.encrypted', 'UTF-8'));
+
+everyauth.github
+  .appId(credentials['appId'])
+  .appSecret(credentials['appSecret'])
+  .scope('user')
+  .findOrCreateUser(function(session, accessToken, accessTokenSecret, githubUserData) {
+    var promise = this.Promise();
+    var authData = {
+      accessToken: accessToken,
+      accessTokenSecret: accessTokenSecret,
+      username: githubUserData.login,
+      githubId: githubUserData.id
+    };
+    return promise.fulfill(authData);
+  })
+  .redirectPath('/');
 
 var app = express();
 
@@ -22,8 +42,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//everyauth
+app.use(session({
+  secret: 'appfog v2',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
+app.use(everyauth.middleware(app));
+
+//setup routes
 app.use('/', routes);
 app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

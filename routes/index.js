@@ -8,7 +8,7 @@ var instance_id = app_vars["instance_index"];
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'AppFog v2 Demo', instanceId: instance_id });
+  res.render('index', { title: 'Whizkey', instanceId: instance_id });
 });
 
 module.exports = router;

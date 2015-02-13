@@ -13,23 +13,23 @@ html
             span(class='icon-bar')
             span(class='icon-bar')
             span(class='icon-bar')
-          a(class='navbar-brand', href='#') #{title}
+          a(class='navbar-brand', href='#')
+            span(class='brand-title') #{title}
         div(id="navbar", class="navbar-collapse collapse")
           ul(class="nav navbar-nav")
             li(class="active")
-              a(href='#') Home
+              a(href='/find') Find a Whiskey
             li()
-              a(href="#about") About
+              a(href="/add") Add a Whiskey
           ul(class="nav navbar-nav navbar-right")
             li
-              a(href="../navbar/") Default
+              a(href="/favorites") My Favorites
             li
-              a(href="../navbar-static-top/") Static top
-            li(class="active")
-              a(href="./") Fixed top
-                span(class="sr-only")(current)
+              a(href="/auth/github") Sign Up with Github
 
     div(class='container')
       block content
 
+    script(type='text/javascript', src="//code.jquery.com/jquery-1.11.2.min.js")
+    script(type='text/javascript', src="//code.jquery.com/jquery-migrate-1.2.1.min.js")
     script(type='text/javascript', src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
