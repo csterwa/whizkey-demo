@@ -3,9 +3,28 @@
   src: url(/fonts/Elegante-Regular.ttf);
 }
 
+@font-face {
+  font-family: talldark;
+  src: url(/fonts/talldark.ttf);
+}
+
 body {
   padding: 50px;
   font: 14px Helvetica, Arial, sans-serif;
+}
+
+.chocolate {
+  background-color: #D3A46E;
+}
+
+.carousel-caption {
+  font-family: talldark;
+  background: #252525;
+  opacity: 0.6;
+}
+
+.multiline-caption {
+  margin: 0;
 }
 
 a {

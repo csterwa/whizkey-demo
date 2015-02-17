@@ -1,7 +1,15 @@
 extends layout
 
 block content
-  div(class='col-md-6')
-    p Welcome to #{title} from instance '#{instanceId}'
-  div(class='col-md-6')
-    p Now what?
+  div(class='carousel slide', data-ride='carousel')
+    div(class='carousel-inner')
+      div(class='item active')
+        img(src='/images/rack-house.jpg', class='img-responsive')
+        div(class='carousel-caption')
+          p(style='font-size: 74px;', class='multiline-caption') Too much of anything
+          p(style='font-size: 56px;', class='multiline-caption') is bad, but too much
+          p(class='multiline-caption')
+            span(style='font-size: 74px;') good whiskey
+            span(style='font-size: 64px; margin-left: 10px;') is
+          p(style='font-size: 80px;', class='multiline-caption') barely enough.”
+          p(style='font-size: 44px;', class='multiline-caption') Mark Twain
