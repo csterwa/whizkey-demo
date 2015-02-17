@@ -20,11 +20,15 @@ body {
 .carousel-caption {
   font-family: talldark;
   background: #252525;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .multiline-caption {
   margin: 0;
+}
+
+.multiline-caption span {
+  margin-left: 10px;
 }
 
 a {
@@ -38,7 +42,7 @@ a {
 .green {
   font-family: "Elegante-Regular";
   font-size: 1.4em;
-  background: #00853f;
+  background: #7B3F00;
   color: #fff;
 }
 

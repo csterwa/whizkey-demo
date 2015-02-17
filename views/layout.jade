@@ -21,11 +21,6 @@ html
               span(class='brand-title', style='float: left;') #{title}
               img(src='/images/favicon-32x32.png')
           div(id="navbar", class="navbar-collapse collapse")
-            ul(class="nav navbar-nav")
-              li(class="active")
-                a(href='/find') Find a Whiskey
-              li()
-                a(href="/add") Add a Whiskey
             ul(class="nav navbar-nav navbar-right")
               - if (req.session.auth)
                 li
@@ -37,7 +32,7 @@ html
                   a(href="/auth/github") Sign In with Github
 
     div(class='container')
-    block content
+      block content
 
     footer(class='text-center')
       nav(class='navbar navbar-fixed-bottom green')
