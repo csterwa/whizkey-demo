@@ -1,26 +1,6 @@
 var mysql = require('mysql');
-var connectionInfo = {
-  user: 'drinker',
-  password: 'flask',
-  database: 'whizkey'
-};
-
-if (process.env.VCAP_SERVICES) {
-  var services = JSON.parse(process.env.VCAP_SERVICES);
-  var mysqlConfig = services["p-mysql"];
-  if (mysqlConfig) {
-    var node = mysqlConfig[0];
-    connectionInfo = {
-        host: node.credentials.hostname,
-        port: node.credentials.port,
-        user: node.credentials.username,
-        password: node.credentials.password,
-        database: node.credentials.name
-    };
-  }
-}
-
-var connection = mysql.createConnection(connectionInfo);
+var dbconfig = require('../db/dbconfig');
+var connection = mysql.createConnection(dbconfig.connectionInfo());
 var userTableDef = 'create or replace table users (' +
     'githubId int, ' +
     'githubUsername VARCHAR(100), ' +
