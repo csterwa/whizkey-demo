@@ -55,3 +55,17 @@ a {
   color: #fff;
   text-decoration: none;
 }
+
+.white {
+  background-color: #dcdcdc;
+}
+
+.whizkey-name {
+  font-family: 'Elegante-Regular';
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.whizkey-description {
+  
+}

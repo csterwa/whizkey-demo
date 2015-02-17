@@ -18,7 +18,7 @@ html
               span(class='icon-bar')
               span(class='icon-bar')
             a(class='navbar-brand', href='/')
-              span(class='brand-title', style='float: left;') #{title}
+              span(class='brand-title', style='float: left;') Whizkey
               img(src='/images/favicon-32x32.png')
           div(id="navbar", class="navbar-collapse collapse")
             ul(class="nav navbar-nav")
@@ -27,11 +27,9 @@ html
               li()
                 a(href="/add") Add a Whiskey
             ul(class="nav navbar-nav navbar-right")
-              - if (req.session.auth)
+              - if (everyauth.loggedIn)
                 li
                   a(href="/favorites") My Favorites
-                li
-                  img(src="#{req.session.auth.github.user.avatar_url}", width="48")
               - else
                 li
                   a(href="/auth/github") Sign In with Github
@@ -47,7 +45,7 @@ html
               li(class='active') &copy; 2015 AppFog v2 Demo
             ul(class="nav navbar-nav navbar-right")
               li(class='nav navbar-nav')
-                span(class='brand-title', style='float: left;') #{title}
+                span(class='brand-title', style='float: left;') Whizkey
 
     script(type='text/javascript', src="//code.jquery.com/jquery-1.11.2.min.js")
     script(type='text/javascript', src="//code.jquery.com/jquery-migrate-1.2.1.min.js")

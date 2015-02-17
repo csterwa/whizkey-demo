@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var user = require('./model/user');
+var whiskey = require('./model/whiskey');
 var everyauth = require('everyauth');
 var fs = require('fs');
 var credentials = JSON.parse(fs.readFileSync('./github.credentials.encrypted', 'UTF-8'));
@@ -23,20 +24,22 @@ everyauth.github
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('appfogv2'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //everyauth
 app.use(express.session({secret: 'appfogv2'}));
 app.use(everyauth.middleware());
+everyauth.helpExpress(app);
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 //setup routes
+app.use(app.router);
 // var mainRoutes = require('./routes/index');
 // app.use('/', mainRoutes);
 var vcap_app = process.env.VCAP_APPLICATION || '{"instance_index": 0}';
@@ -45,9 +48,18 @@ var instance_id = app_vars["instance_index"];
 
 /* GET home page. */
 app.get('/', function(req, res) {
-  res.render('index', { title: 'Whizkey', instanceId: instance_id, everyauth: everyauth, req: req });
+  res.render('index', { title: 'Whizkey', instanceId: instance_id, req: req });
 });
 
+/* GET find page. */
+app.get('/find', function(req, res) {
+  var whiskeyListPromise = whiskey.findAllWhiskeys();
+
+  whiskeyListPromise.then(function(whiskeyList) {
+    console.log('whiskey list:', whiskeyList);
+    res.render('find', { title: "Whizkey: Find a Whiskey", instanceId: instance_id, req: req, whiskeyList: whiskeyList });
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
