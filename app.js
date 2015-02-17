@@ -1,13 +1,9 @@
 var express = require('express');
-var session = require('express-session');
 var path = require('path');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
 var user = require('./model/user');
-
 var everyauth = require('everyauth');
 var fs = require('fs');
 var credentials = JSON.parse(fs.readFileSync('./github.credentials.encrypted', 'UTF-8'));
@@ -17,7 +13,11 @@ everyauth.github
   .scope('user')
   .findOrCreateUser(function(session, accessToken, accessTokenSecret, githubUserData) {
     var promise = this.Promise();
-    return user.authenticateUser(accessToken, accessTokenSecret, githubUserData, promise);
+    user.authenticateUser(accessToken, accessTokenSecret, githubUserData, promise);
+    return promise;
+  })
+  .handleAuthCallbackError( function (req, res) {
+    console.log('auth callback error');
   })
   .redirectPath('/');
 
@@ -27,23 +27,26 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //everyauth
-app.use(session({
-  secret: 'appfog v2',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));
-app.use(everyauth.middleware(app));
+app.use(express.session({secret: 'appfogv2'}));
+app.use(everyauth.middleware());
 
 //setup routes
-app.use('/', routes);
+// var mainRoutes = require('./routes/index');
+// app.use('/', mainRoutes);
+var vcap_app = process.env.VCAP_APPLICATION || '{"instance_index": 0}';
+var app_vars = JSON.parse(vcap_app);
+var instance_id = app_vars["instance_index"];
+
+/* GET home page. */
+app.get('/', function(req, res) {
+  res.render('index', { title: 'Whizkey', instanceId: instance_id, everyauth: everyauth, req: req });
+});
 
 
 // catch 404 and forward to error handler
@@ -76,6 +79,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
