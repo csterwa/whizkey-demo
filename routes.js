@@ -14,17 +14,28 @@ module.exports = function(app) {
 
   /* GET find page. */
   app.get('/find', function(req, res) {
-    var whiskeyListPromise = whiskey.findAllWhiskeys();
-
-    whiskeyListPromise.then(function(whiskeyList) {
-      res.render('find', { title: "Whizkey: Find a Whiskey", instanceId: instance_id, req: req, whiskeyList: whiskeyList });
-    });
+    renderFind(req, res);
   });
 
   /* GET add page. */
   app.get('/add', function(req, res) {
     res.render('add', { title: "Whizkey: Add a Whiskey", instanceId: instance_id, req: req });
   });
+
+  /* POST whiskey data */
+  app.post('/whiskey', function(req, res) {
+    whiskey.addWhiskey(req.body.name, req.body.description);
+
+    renderFind(req, res);
+  })
+
+  function renderFind(req, res) {
+    var whiskeyListPromise = whiskey.findAllWhiskeys();
+
+    whiskeyListPromise.then(function(whiskeyList) {
+      res.render('find', { title: "Whizkey: Find a Whiskey", instanceId: instance_id, req: req, whiskeyList: whiskeyList });
+    });
+  };
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

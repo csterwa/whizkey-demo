@@ -1,14 +1,14 @@
 extends layout
 
 block content
-  form(class='form-horizontal')
+  form(class='form-horizontal', method='POST', action='/whiskey')
     div(class='form-group')
       label(for='whiskey-name-text' class='col-sm-2 control-label') Name
       div(class='col-sm-10')
-        input(type='text', id='whiskey-name-text', class='form-control', placeholder='Name of Whiskey')
+        input(type='text', id='whiskey-name-text', name='name', class='form-control', placeholder='Name of Whiskey')
     div(class='form-group')
       label(for='whiskey-description-text', class='col-sm-2 control-label') Description
       div(class='col-sm-10')
-        textarea(rows=10, class='form-control', id='whiskey-description-text', placeholder='Description of Whiskey')
+        textarea(rows=10, class='form-control', id='whiskey-description-text', name='description', placeholder='Description of Whiskey')
     div(class='col-sm-12 text-right')
       button(type='submit', class='btn btn-primary') Add Whiskey
