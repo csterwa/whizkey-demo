@@ -6,8 +6,17 @@ block content
       tr
         th Name
         th Description
-    tbody()
+        - if (everyauth.loggedIn)
+          th Favorites
+    tbody
     each whiskey in whiskeyList
       tr
         td(class='whizkey-name') #{whiskey.name}
         td(class='whizkey-description') #{whiskey.description}
+        - if (everyauth.loggedIn)
+          td(class='favorite-whizkey-bool')
+            - if (whiskey.favorite)
+              span(class='glyphicon glyphicon-star')
+            - else
+              form(class='form-horizontal', method='POST', action='/favorite')
+                input(type='checkbox', class='form-control', name='whiskey-id', value= whiskey.id, onchange='this.form.submit()')

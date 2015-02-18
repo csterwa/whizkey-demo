@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  table(class='table table-striped white')
+    thead
+      tr
+        th Name
+        th Description
+    tbody
+    each whiskey in favorites
+      tr
+        td(class='whizkey-name') #{whiskey.name}
+        td(class='whizkey-description') #{whiskey.description}

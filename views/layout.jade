@@ -21,15 +21,19 @@ html
               span(class='brand-title', style='float: left;') Whizkey
               img(src='/images/favicon-32x32.png')
           div(id="navbar", class="navbar-collapse collapse")
-            ul(class="nav navbar-nav")
-              li(class="active")
-                a(href='/find') Find a Whiskey
-              li()
-                a(href="/add") Add a Whiskey
+            - if (everyauth.loggedIn)
+              ul(class="nav navbar-nav")
+                li(class="active")
+                  a(href='/find') Find a Whiskey
+                li()
+                  a(href="/add") Add a Whiskey
             ul(class="nav navbar-nav navbar-right")
               - if (everyauth.loggedIn)
                 li
-                  a(href="/favorites") My Favorites
+                  a(href="/myfavorites") My Favorites
+                - if (req.session.auth.github.user)
+                  li
+                    img(src='#{req.session.auth.github.user.avatar_url}', width='48')
               - else
                 li
                   a(href="/auth/github") Sign In with Github

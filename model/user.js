@@ -2,10 +2,10 @@ var mysql = require('mysql');
 var dbconfig = require('../db/dbconfig');
 var connection = mysql.createConnection(dbconfig.connectionInfo());
 var userTableDef = 'create or replace table users (' +
-    'githubId int, ' +
-    'githubUsername VARCHAR(100), ' +
-    'avatarUrl VARCHAR(100), ' +
-    'PRIMARY KEY(githubId)' +
+    'github_id int, ' +
+    'github_username VARCHAR(100), ' +
+    'avatar_url VARCHAR(100), ' +
+    'PRIMARY KEY(github_id)' +
   ')';
 console.log('creating users table:', userTableDef);
 connection.query(userTableDef, function (queryError, result) {
@@ -14,10 +14,10 @@ connection.query(userTableDef, function (queryError, result) {
 });
 
 exports.authenticateUser = function(accessToken, accessTokenSecret, githubUserData, promise) {
-  var userLookupQuery = 'select * from users where githubId = ' + githubUserData.id;
+  var userLookupQuery = 'select * from users where github_id = ' + githubUserData.id;
   connection.query(userLookupQuery, function(err, result) {
     if (result.length === 0) {
-      var userCreateStatement = 'insert into users (githubId, githubUsername, avatarUrl) ' +
+      var userCreateStatement = 'insert into users (github_id, github_username, avatar_url) ' +
         'values (' + githubUserData.id + ', "' + githubUserData.login + '", "' + githubUserData.avatar_url + '")';
 
       console.log('create user:', userCreateStatement);
@@ -31,9 +31,9 @@ exports.authenticateUser = function(accessToken, accessTokenSecret, githubUserDa
         var authData = {
           accessToken: accessToken,
           accessTokenSecret: accessTokenSecret,
-          githubUsername: githubUserData.login,
-          githubId: githubUserData.id,
-          avatarUrl: githubUserData.avatar_url
+          github_username: githubUserData.login,
+          github_id: githubUserData.id,
+          avatar_url: githubUserData.avatar_url
         };
 
         console.log('created user:', authData);
