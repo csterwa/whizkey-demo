@@ -61,6 +61,11 @@ app.get('/find', function(req, res) {
   });
 });
 
+/* GET add page. */
+app.get('/add', function(req, res) {
+  res.render('add', { title: "Whizkey: Add a Whiskey", instanceId: instance_id, req: req });
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
