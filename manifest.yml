@@ -1,5 +1,7 @@
 ---
 applications:
-- name: hw-nodejs-01
+- name: whizkey
   memory: 256M
-  instances: 2
+  instances: 1
+  services:
+    - whizkey-db-01
