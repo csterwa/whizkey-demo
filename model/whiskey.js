@@ -1,7 +1,5 @@
-var mysql = require('mysql');
 var Q = require('q');
 var dbconfig = require('../db/dbconfig');
-var connection = mysql.createConnection(dbconfig.connectionInfo());
 var whiskeyTableDef = 'create or replace table whiskeys (' +
     'id INT NOT NULL AUTO_INCREMENT, ' +
     'name VARCHAR(100), ' +
@@ -9,7 +7,7 @@ var whiskeyTableDef = 'create or replace table whiskeys (' +
     'PRIMARY KEY (id)' +
   ')';
 console.log('creating whiskeys table:', whiskeyTableDef);
-connection.query(whiskeyTableDef, function (queryError, result) {
+dbconfig.query(whiskeyTableDef, function (queryError, result) {
   console.log('whiskeys table error:', JSON.stringify(queryError, undefined, 4));
   console.log('whiskeys table result:', JSON.stringify(result, undefined, 4));
 });
@@ -17,7 +15,7 @@ connection.query(whiskeyTableDef, function (queryError, result) {
 var addWhiskey = exports.addWhiskey = function(name, description) {
   var insertStatement = 'insert into whiskeys (name, description) ' +
     'values ("' + name + '", "' + description + '")';
-  connection.query(insertStatement, function(queryError, result) {
+  dbconfig.query(insertStatement, function(queryError, result) {
     console.log('add whiskey error:', JSON.stringify(queryError, undefined, 4));
     console.log('add whiskey result:', JSON.stringify(result, undefined, 4));
   });
@@ -26,7 +24,7 @@ var addWhiskey = exports.addWhiskey = function(name, description) {
 exports.findAllWhiskeys = function() {
   var selectStatement = 'select * from whiskeys';
   var deferred = Q.defer();
-  connection.query(selectStatement, function(queryError, result) {
+  dbconfig.query(selectStatement, function(queryError, result) {
     deferred.resolve(result);
   });
   return deferred.promise;

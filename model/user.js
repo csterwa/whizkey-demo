@@ -1,6 +1,4 @@
-var mysql = require('mysql');
 var dbconfig = require('../db/dbconfig');
-var connection = mysql.createConnection(dbconfig.connectionInfo());
 var userTableDef = 'create or replace table users (' +
     'github_id int, ' +
     'github_username VARCHAR(100), ' +
@@ -8,20 +6,20 @@ var userTableDef = 'create or replace table users (' +
     'PRIMARY KEY(github_id)' +
   ')';
 console.log('creating users table:', userTableDef);
-connection.query(userTableDef, function (queryError, result) {
+dbconfig.query(userTableDef, function (queryError, result) {
   console.log('user table error:', JSON.stringify(queryError, undefined, 4));
   console.log('user table result:', JSON.stringify(result, undefined, 4));
 });
 
 exports.authenticateUser = function(accessToken, accessTokenSecret, githubUserData, promise) {
   var userLookupQuery = 'select * from users where github_id = ' + githubUserData.id;
-  connection.query(userLookupQuery, function(err, result) {
+  dbconfig.query(userLookupQuery, function(err, result) {
     if (result.length === 0) {
       var userCreateStatement = 'insert into users (github_id, github_username, avatar_url) ' +
         'values (' + githubUserData.id + ', "' + githubUserData.login + '", "' + githubUserData.avatar_url + '")';
 
       console.log('create user:', userCreateStatement);
-      connection.query(userCreateStatement, function(createErr, createResult) {
+      dbconfig.query(userCreateStatement, function(createErr, createResult) {
         if (createErr) {
           promise.fail('Unable to create user for ' + githubUserData.login + ': ' + createErr);
           console.log('unable to create user:', githubUserData.login + ': ' + createErr);

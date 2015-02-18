@@ -1,3 +1,4 @@
+var mysql = require('mysql');
 var connectionInfo = {
   user: 'drinker',
   password: 'flask',
@@ -19,7 +20,11 @@ if (process.env.VCAP_SERVICES) {
   }
 }
 
-exports.connectionInfo = function() {
-  console.log('connection info:', connectionInfo);
-  return connectionInfo;
-}
+
+exports.query = function(query, callback) {
+  var connection = mysql.createConnection(connectionInfo);
+  connection.query(query, function(queryError, result) {
+    callback(queryError, result);
+  });
+  connection.end();
+};
