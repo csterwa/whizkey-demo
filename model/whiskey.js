@@ -27,7 +27,6 @@ exports.findAllWhiskeys = function() {
   var selectStatement = 'select * from whiskeys';
   var deferred = Q.defer();
   connection.query(selectStatement, function(queryError, result) {
-    console.log('result of find all', result.length, 'whiskeys:', result);
     deferred.resolve(result);
   });
   return deferred.promise;
