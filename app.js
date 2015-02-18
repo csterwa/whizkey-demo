@@ -1,5 +1,6 @@
 var express = require('express');
 var session = require('express-session');
+var cacheConfig = require('./db/cacheconfig')(session);
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -30,7 +31,10 @@ app.use(cookieParser('appfogv2'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //everyauth
-app.use(session({secret: 'appfogv2'}));
+app.use(session({
+  store: cacheConfig.getRedisStore(),
+  secret: 'appfogv2'
+}));
 app.use(everyauth.middleware());
 
 // view engine setup
