@@ -1,5 +1,5 @@
 var dbconfig = require('../db/dbconfig');
-var userTableDef = 'create or replace table users (' +
+var userTableDef = 'create table if not exists users (' +
     'github_id int, ' +
     'github_username VARCHAR(100), ' +
     'avatar_url VARCHAR(100), ' +

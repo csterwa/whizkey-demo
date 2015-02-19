@@ -1,6 +1,6 @@
 var Q = require('q');
 var dbconfig = require('../db/dbconfig');
-var favoriteTableDef = 'create or replace table favorites (' +
+var favoriteTableDef = 'create table if not exists favorites (' +
     'id INT NOT NULL AUTO_INCREMENT, ' +
     'user_id INT, ' +
     'whiskey_id INT, ' +
