@@ -20,7 +20,6 @@ if (process.env.VCAP_SERVICES) {
   }
 }
 
-
 exports.query = function(query, callback) {
   var connection = mysql.createConnection(connectionInfo);
   connection.query(query, function(queryError, result) {
