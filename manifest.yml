@@ -4,5 +4,5 @@ applications:
   memory: 256M
   instances: 2
   services:
-    - whizkey-db-01
-    - whizkey-cache-01
+    - whizkey-db
+    - whizkey-cache
