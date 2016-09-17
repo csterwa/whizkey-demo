@@ -5,6 +5,7 @@ var userTableDef = 'create table if not exists users (' +
     'avatar_url VARCHAR(100), ' +
     'PRIMARY KEY(github_id)' +
   ')';
+
 console.log('creating users table:', userTableDef);
 dbconfig.query(userTableDef, function (queryError, result) {
   console.log('user table error:', JSON.stringify(queryError, undefined, 4));
